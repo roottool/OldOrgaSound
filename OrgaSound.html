@@ -1,0 +1,18 @@
+<!doctype html>
+<html ng-app = 'App'>
+<head>
+<title>Orga Sound</title>
+<link rel="stylesheet" href="OrgaSound.css" type="text/css">
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.6/angular.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/angular-audio/1.7.4/angular.audio.min.js"></script>
+<script src="https://www.gstatic.com/firebasejs/4.6.0/firebase.js"></script>
+<script src="OrgaSound.js"></script>
+</head>
+<body ng-controller="AppController" class="main-background">
+  <input type = "text" ng-model="displayText"> 
+  <input type="button" value="Go" ng-click="display()">
+  <input type="button" value="Stop" ng-click="stop()">
+  <input class="form-control ng-pristine ng-untouched ng-valid" min="0" max="1" step="0.01" ng-model="volume" type="range">
+  <h1>{{text}}</h1>
+</body>
+</html>
