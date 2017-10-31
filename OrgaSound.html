@@ -1,18 +1,33 @@
 <!doctype html>
-<html ng-app = 'App'>
+<html ng-app='App'>
+
 <head>
-<title>Orga Sound</title>
-<link rel="stylesheet" href="OrgaSound.css" type="text/css">
-<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.6/angular.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/angular-audio/1.7.4/angular.audio.min.js"></script>
-<script src="https://www.gstatic.com/firebasejs/4.6.0/firebase.js"></script>
-<script src="OrgaSound.js"></script>
+  <title>Orga Sound</title>
+  <link rel="stylesheet" href="OrgaSound.css" type="text/css">
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.6/angular.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-audio/1.7.4/angular.audio.min.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/4.6.0/firebase.js"></script>
+  <script src="https://cdn.mlkcca.com/v0.6.0/milkcocoa.js"></script>
+  <script src="OrgaSound.js"></script>
 </head>
+
 <body ng-controller="AppController" class="main-background">
-  <input type = "text" ng-model="displayText"> 
-  <input type="button" value="Go" ng-click="display()">
-  <input type="button" value="Stop" ng-click="stop()">
-  <input class="form-control ng-pristine ng-untouched ng-valid" min="0" max="1" step="0.01" ng-model="volume" type="range">
-  <h1>{{text}}</h1>
+  <div class="fixedPosition">
+    <input type="text" size="10" ng-model="user" placeholder="ユーザー名">
+    <br/>
+    <input type="text" size="30" ng-model="msg" placeholder="メッセージを入力">
+    <button name="button" ng-click="sendMes()">送信</button>
+    <br/>
+    <input class="form-control ng-pristine ng-untouched ng-valid" min="0" max="1" step="0.01" ng-model="volume" type="range">
+    <input type="button" value="Stop" ng-click="stop()">
+  </div>
+  <ul class="chatlog" ng-repeat="msgbox in msgBoxes">
+
+    <li>
+      {{msgbox.value.name}}: {{msgbox.value.text}}
+
+    </li>
+  </ul>
 </body>
+
 </html>
