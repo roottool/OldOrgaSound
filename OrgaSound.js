@@ -19,19 +19,22 @@
             $scope.user = "";
             $scope.msgBoxes = "";
 
-            $scope.readMes = function () {
+            $scope.readMes = function (e) {
                 $scope.myApp.stream().next(function (err, data) {
                     $scope.msgBoxes = data;
                     $scope.$apply();
-                    if ($scope.msgBoxes[$scope.msgBoxes.length - 1].value.text != "" &&
-                        typeof $scope.msgBoxes[$scope.msgBoxes.length - 1].value.text != "undefined") {
+                    if (typeof $scope.msgBoxes[$scope.msgBoxes.length - 1].value.text != "undefined" &&
+                        $scope.msgBoxes[$scope.msgBoxes.length - 1].value.text != "") {
                         play($scope.msgBoxes[$scope.msgBoxes.length - 1].value.text);
+                        var obj = document.getElementById('bodyScroll');
+                        if(!obj) return;
+                        scrollTo(0, obj.scrollHeight);
                     }
                 });
             }
 
             $scope.sendMes = function () {
-                if ($scope.msg != "") {
+                if (typeof $scope.msg != "undefined" && $scope.msg != "") {
                     $scope.myApp.push({
                         name: $scope.user,
                         text: $scope.msg
