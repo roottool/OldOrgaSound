@@ -27,14 +27,15 @@
                         $scope.msgBoxes[$scope.msgBoxes.length - 1].value.text != "") {
                         play($scope.msgBoxes[$scope.msgBoxes.length - 1].value.text);
                         var obj = document.getElementById('bodyScroll');
-                        if(!obj) return;
+                        if (!obj) return;
                         scrollTo(0, obj.scrollHeight);
                     }
                 });
             }
 
             $scope.sendMes = function () {
-                if (typeof $scope.msg != "undefined" && $scope.msg != "") {
+                if (typeof $scope.user != "undefined" && typeof $scope.msg != "undefined" &&
+                    $scope.user != "" && $scope.msg != "") {
                     $scope.myApp.push({
                         name: $scope.user,
                         text: $scope.msg
@@ -53,12 +54,7 @@
             }
 
             function play(text) {
-                if (text == "tomarunja") {
-                    var stream = "https://orgasound-6b59e.firebaseapp.com/" + text + ".ogg";
-                    sound = new Audio(stream);
-                    sound.volume = $scope.volume;
-                    sound.play();
-                } else if (re.test(text)) {
+                if (re.test(text)) {
                     // Create a reference to the file we want to download
                     var starsRef = storageRef.child('orga/' + text + '.ogg');
 
@@ -70,31 +66,11 @@
                         audio.src = url;
                         audio.play();
                     }).catch(function (error) {
-
-                        // A full list of error codes is available at
-                        // https://firebase.google.com/docs/storage/web/handle-errors
-                        switch (error.code) {
-                            case 'storage/object_not_found':
-                                // File doesn't exist
-                                console.log("a");
-                                break;
-                            case 'storage/unauthorized':
-                                // User doesn't have permission to access the object
-                                console.log("b");
-                                break;
-                            case 'storage/canceled':
-                                // User canceled the upload
-                                console.log("c");
-                                break;
-                            case 'storage/unknown':
-                                // Unknown error occurred, inspect the server response
-                                console.log("d");
-                                break;
-                        }
+                        OutputError(error)
                     });
                 } else {
                     // Create a reference to the file we want to download
-                    var starsRef = storageRef.child('sound/naniyatte.ogg');
+                    var starsRef = storageRef.child('sound/' + text + '.ogg');
 
                     // Get the download URL
                     starsRef.getDownloadURL().then(function (url) {
@@ -102,28 +78,31 @@
                         sound.volume = $scope.volume;
                         sound.play();
                     }).catch(function (error) {
-
-                        // A full list of error codes is available at
-                        // https://firebase.google.com/docs/storage/web/handle-errors
-                        switch (error.code) {
-                            case 'storage/object_not_found':
-                                // File doesn't exist
-                                console.log("a");
-                                break;
-                            case 'storage/unauthorized':
-                                // User doesn't have permission to access the object
-                                console.log("b");
-                                break;
-                            case 'storage/canceled':
-                                // User canceled the upload
-                                console.log("c");
-                                break;
-                            case 'storage/unknown':
-                                // Unknown error occurred, inspect the server response
-                                console.log("d");
-                                break;
-                        }
+                        OutputError(error)
                     });
+                }
+            }
+
+            function OutputError(error) {
+                // A full list of error codes is available at
+                // https://firebase.google.com/docs/storage/web/handle-errors
+                switch (error.code) {
+                    case 'storage/object_not_found':
+                        // File doesn't exist
+                        console.log("a");
+                        break;
+                    case 'storage/unauthorized':
+                        // User doesn't have permission to access the object
+                        console.log("b");
+                        break;
+                    case 'storage/canceled':
+                        // User canceled the upload
+                        console.log("c");
+                        break;
+                    case 'storage/unknown':
+                        // Unknown error occurred, inspect the server response
+                        console.log("d");
+                        break;
                 }
             }
         });
